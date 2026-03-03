@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="auth">
+  <div class="auth-card" data-reveal>
+    <h3 class="auth-title">Welcome back</h3>
+    <p class="auth-sub">Sign in to manage and create campaigns.</p>
+    <form method="post" class="auth-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="form-actions">
+        <a class="btn" href="{% url 'signup' %}">Create account</a>
+        <button class="btn primary" type="submit">Login</button>
+      </div>
+    </form>
+  </div>
+</main>
+{% endblock %}

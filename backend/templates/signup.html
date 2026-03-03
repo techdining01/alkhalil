@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="auth">
+  <div class="auth-card" data-reveal>
+    <h3 class="auth-title">Join the Foundation</h3>
+    <p class="auth-sub">Create an account to publish campaigns and participate.</p>
+    <form method="post" class="auth-form">
+      {% csrf_token %}
+      <div class="form-row"><label>Username {{ form.username }}</label></div>
+      <div class="form-row"><label>Email {{ form.email }}</label></div>
+      <div class="form-row"><label>Full name {{ form.full_name }}</label></div>
+      <div class="form-row"><label>Password {{ form.password }}</label></div>
+      <div class="form-actions">
+        <a class="btn" href="{% url 'login' %}">I have an account</a>
+        <button class="btn primary" type="submit">Register</button>
+      </div>
+    </form>
+  </div>
+</main>
+{% endblock %}

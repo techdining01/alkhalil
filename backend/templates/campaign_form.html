@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="section">
+  <div class="container">
+    <h3>New Campaign</h3>
+    <p style="color:#555">CTA stands for “Call To Action”. It is the button label that prompts users to act (e.g., Donate, Volunteer, Learn More). “CTA Link” is where that button sends users.</p>
+    <form method="post" enctype="multipart/form-data" class="campaign-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="form-actions">
+        <a class="btn" href="{% url 'index' %}">Cancel</a>
+        <button class="btn primary" type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+</main>
+{% endblock %}

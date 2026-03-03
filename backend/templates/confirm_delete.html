@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="section">
+  <div class="container">
+    <h3>Delete Campaign</h3>
+    <p>Are you sure you want to delete “{{ object.title }}”?</p>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-actions">
+        <a class="btn" href="{% url 'index' %}">Cancel</a>
+        <button class="btn primary" type="submit">Yes, delete</button>
+      </div>
+    </form>
+  </div>
+</main>
+{% endblock %}
