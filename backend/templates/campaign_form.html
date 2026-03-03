@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 <main class="section">
-  <div class="container">
+  <div class="container" data-reveal>
     <h3>New Campaign</h3>
-    <p style="color:#555">CTA stands for “Call To Action”. It is the button label that prompts users to act (e.g., Donate, Volunteer, Learn More). “CTA Link” is where that button sends users.</p>
+    <p style="color:#555">CTA stands for “Call To Action”. It is the button label that prompts users to act (e.g.,
+      Donate, Volunteer, Learn More). “CTA Link” is where that button sends users.</p>
     <form method="post" enctype="multipart/form-data" class="campaign-form">
       {% csrf_token %}
       {{ form.as_p }}
@@ -14,4 +15,20 @@
     </form>
   </div>
 </main>
+{% endblock %}
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.gsap) {
+      gsap.fromTo('[data-reveal]',
+        { y: 30, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.8, ease: 'power3.out', clearProps: 'all' }
+      );
+      gsap.fromTo('.campaign-form > *',
+        { y: 15, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.5, stagger: 0.08, ease: 'power2.out', delay: 0.2, clearProps: 'all' }
+      );
+    }
+  });
+</script>
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <main class="section">
-  <div class="container">
+  <div class="container" data-reveal>
     <h3>Delete Campaign</h3>
     <p>Are you sure you want to delete “{{ object.title }}”?</p>
     <form method="post">
@@ -13,4 +13,16 @@
     </form>
   </div>
 </main>
+{% endblock %}
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.gsap) {
+      gsap.fromTo('[data-reveal]',
+        { y: 30, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.8, ease: 'power3.out', clearProps: 'all' }
+      );
+    }
+  });
+</script>
 {% endblock %}

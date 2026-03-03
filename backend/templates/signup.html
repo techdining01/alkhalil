@@ -18,3 +18,19 @@
   </div>
 </main>
 {% endblock %}
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.gsap) {
+      gsap.fromTo('.auth-card',
+        { y: 40, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.8, ease: 'power3.out', clearProps: 'all' }
+      );
+      gsap.fromTo('.auth-form > *',
+        { y: 20, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.1, ease: 'power2.out', delay: 0.2, clearProps: 'all' }
+      );
+    }
+  });
+</script>
+{% endblock %}

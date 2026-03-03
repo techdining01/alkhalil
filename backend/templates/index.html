@@ -4,10 +4,10 @@
   <section class="hero" data-reveal>
     <div class="container hero-inner">
       <div class="hero-text">
-        <h2>Serving the community with compassion and purpose</h2>
-        <p>We advance worship, education, welfare and empowerment programs that uplift lives and strengthen social
-          harmony.</p>
-        <div class="hero-cta">
+        <h2 class="gsap-hero-title">Serving the community with compassion and purpose</h2>
+        <p class="gsap-hero-sub">We advance worship, education, welfare and empowerment programs that uplift lives and
+          strengthen social harmony.</p>
+        <div class="hero-cta gsap-hero-btns">
           <a class="btn primary" href="/#objectives">Our Objectives</a>
           <a class="btn" href="/#contact">Get in Touch</a>
         </div>
@@ -15,7 +15,7 @@
     </div>
   </section>
 
-  <section class="ticker" id="ticker" data-reveal class="reveal-delay-1" style="margin-bottom: 2rem;">
+  <section class="ticker" id="ticker" data-reveal class="reveal-delay-1" style="margin-bottom: 1.5rem;">
     <div class="container">
       <div class="ticker-viewport">
         <div class="ticker-track" id="ticker-track">
@@ -237,7 +237,7 @@
 {% endblock %}
 {% block scripts %}
 <script>
-  // carousel with forward/reverse animation
+  // Forward & reverse carousel (ping-pong motion)
   (function () {
     const track = document.getElementById('carousel-track');
     if (!track) return;
@@ -248,36 +248,33 @@
     let i = 0, timer, goingForward = true;
     function renderDots() {
       dotsWrap.innerHTML = slides.map((_, idx) => `<button data-i="${idx}" aria-label="Go to slide ${idx + 1}"></button>`).join('');
-      dotsWrap.querySelectorAll('button').forEach(b => b.addEventListener('click', () => goTo(+b.dataset.i)));
+      dotsWrap.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { goTo(+b.dataset.i); start(); }));
     }
     function goTo(idx) {
-      i = idx;
-      if (i >= slides.length) {
-        i = slides.length - 2;
-        goingForward = false;
-      } else if (i < 0) {
-        i = 1;
-        goingForward = true;
-      }
+      i = Math.max(0, Math.min(idx, slides.length - 1));
       track.style.transform = `translateX(-${i * 100}%)`;
       slides.forEach((s, si) => s.classList.toggle('active', si === i));
       dotsWrap.querySelectorAll('button').forEach((b, bi) => b.classList.toggle('active', bi === i));
+
+      // Animate caption on slide change
+      const activeSlide = slides[i];
+      if (window.gsap && activeSlide) {
+        const caption = activeSlide.querySelector('.caption');
+        if (caption) {
+          gsap.fromTo(caption.children,
+            { y: 20, autoAlpha: 0 },
+            { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.1, ease: 'power2.out', clearProps: 'all' }
+          );
+        }
+      }
     }
     function step() {
       if (goingForward) {
-        if (i >= slides.length - 1) {
-          goingForward = false;
-          i--;
-        } else {
-          i++;
-        }
+        if (i >= slides.length - 1) { goingForward = false; i--; }
+        else { i++; }
       } else {
-        if (i <= 0) {
-          goingForward = true;
-          i++;
-        } else {
-          i--;
-        }
+        if (i <= 0) { goingForward = true; i++; }
+        else { i--; }
       }
       goTo(i);
     }
@@ -290,5 +287,68 @@
     wrap?.addEventListener('mouseenter', stop);
     wrap?.addEventListener('mouseleave', start);
   })();
+
+  // GSAP Entrance Animations (forward & reverse on scroll)
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!window.gsap) return;
+
+    // Hero staggered entrance
+    var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    tl.fromTo('.gsap-hero-title',
+      { y: 40, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 1, clearProps: 'all' })
+      .fromTo('.gsap-hero-sub',
+        { y: 20, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.8, clearProps: 'all' }, '-=0.6')
+      .fromTo('.gsap-hero-btns .btn',
+        { y: 15, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.15, clearProps: 'all' }, '-=0.4')
+      .fromTo('.ticker',
+        { autoAlpha: 0, y: 10 },
+        { autoAlpha: 1, y: 0, duration: 0.8, clearProps: 'all' }, '-=0.2');
+
+    // Scroll-triggered reveals with forward & reverse
+    if (window.ScrollTrigger) {
+      gsap.utils.toArray('#about, #objectives, .carousel').forEach(function (section) {
+        gsap.fromTo(section,
+          { y: 30, autoAlpha: 0 },
+          {
+            y: 0, autoAlpha: 1, duration: 1, ease: 'power2.out',
+            scrollTrigger: {
+              trigger: section,
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+      });
+
+      // Stagger objective list items
+      gsap.fromTo('.objectives li',
+        { y: 20, autoAlpha: 0 },
+        {
+          y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.1, ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '.objectives',
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+
+      // Stagger contact cards
+      gsap.fromTo('.contact-cards .card',
+        { y: 20, autoAlpha: 0 },
+        {
+          y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.1, ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '.contact-cards',
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+    }
+  });
 </script>
 {% endblock %}

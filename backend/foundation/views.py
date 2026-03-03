@@ -1,9 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout as auth_logout
 from django.contrib import messages
 from django.http import HttpResponse
 from .models import Campaign
 from .forms import SignUpForm, CampaignForm
+
+
+def custom_logout(request):
+    """Handle logout for both GET and POST requests."""
+    auth_logout(request)
+    return redirect('index')
 
 
 def index(request):
