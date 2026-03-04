@@ -1,6 +1,26 @@
 {% extends "base.html" %}{% load static %}
 {% block content %}
 <main>
+  <!-- Nisab Marquee -->
+  <div class="nisab-marquee">
+    <div class="marquee-track">
+      <span class="marquee-item">🥇 Gold: ₦{{ z.gold_price_ngn }}/g</span>
+      <span class="marquee-item">🥈 Silver: ₦{{ z.silver_price_ngn }}/g</span>
+      <span class="marquee-item">💰 Nisab (Gold): ₦{{ z.nisab_gold_ngn }}</span>
+      <span class="marquee-item">🪙 Nisab (Silver): ₦{{ z.nisab_silver_ngn }}</span>
+      <span class="marquee-item">💍 Mahr Fatimi: ₦{{ z.mahr_fatimi_ngn }}</span>
+      <span class="marquee-item">⚖️ Blood Money: ₦{{ z.diyyah_ngn }}</span>
+      <span class="marquee-item">📅 Rates as of: {{ z.date }}</span>
+      <!-- Duplicate for seamless loop -->
+      <span class="marquee-item">🥇 Gold: ₦{{ z.gold_price_ngn }}/g</span>
+      <span class="marquee-item">🥈 Silver: ₦{{ z.silver_price_ngn }}/g</span>
+      <span class="marquee-item">💰 Nisab (Gold): ₦{{ z.nisab_gold_ngn }}</span>
+      <span class="marquee-item">🪙 Nisab (Silver): ₦{{ z.nisab_silver_ngn }}</span>
+      <span class="marquee-item">💍 Mahr Fatimi: ₦{{ z.mahr_fatimi_ngn }}</span>
+      <span class="marquee-item">⚖️ Blood Money: ₦{{ z.diyyah_ngn }}</span>
+      <span class="marquee-item">📅 Rates as of: {{ z.date }}</span>
+    </div>
+  </div>
   <section class="hero" data-reveal>
     <div class="container hero-inner">
       <div class="hero-text">
@@ -15,7 +35,7 @@
     </div>
   </section>
 
-  <section class="ticker" id="ticker" data-reveal class="reveal-delay-1" style="margin-bottom: 1.5rem;">
+  <section class="ticker" id="ticker" data-reveal class="reveal-delay-1">
     <div class="container">
       <div class="ticker-viewport">
         <div class="ticker-track" id="ticker-track">
@@ -50,46 +70,61 @@
     </div>
   </section>
 
+  <section class="prayer-section" id="prayer-times" data-reveal>
+    <div class="container">
+      <h3 class="section-heading">Prayer Times</h3>
+      <div class="prayer-grid">
+        {% for pt in prayer_times %}
+        <div class="prayer-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}0">
+          <span class="prayer-icon">{{ pt.icon }}</span>
+          <span class="prayer-name">{{ pt.name }}</span>
+          <span class="prayer-time">{{ pt.time }}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
   <section class="carousel" id="carousel" data-reveal class="reveal-delay-2">
     <div class="container">
       <div class="carousel-viewport">
         <div class="carousel-track" id="carousel-track">
-          <div class="slide">
+          <div class="slide" style="--bg-img: url('{% static 'img/IMG-20260303-WA0004.jpg' %}')">
             <img src="{% static 'img/IMG-20260303-WA0004.jpg' %}" alt="">
             <div class="caption">
               <h5>Al‑Khalil Masjid & Islamic Foundation</h5>
               <p>Faith • Service • Community</p>
             </div>
           </div>
-          <div class="slide">
+          <div class="slide" style="--bg-img: url('{% static 'img/IMG-20260303-WA0005.jpg' %}')">
             <img src="{% static 'img/IMG-20260303-WA0005.jpg' %}" alt="">
             <div class="caption">
               <h5>Al‑Khalil Masjid & Islamic Foundation</h5>
               <p>Faith • Service • Community</p>
             </div>
           </div>
-          <div class="slide">
+          <div class="slide" style="--bg-img: url('{% static 'img/IMG-20260303-WA0007.jpg' %}')">
             <img src="{% static 'img/IMG-20260303-WA0007.jpg' %}" alt="">
             <div class="caption">
               <h5>Al‑Khalil Masjid & Islamic Foundation</h5>
               <p>Faith • Service • Community</p>
             </div>
           </div>
-          <div class="slide">
+          <div class="slide" style="--bg-img: url('{% static 'img/IMG-20260303-WA0008.jpg' %}')">
             <img src="{% static 'img/IMG-20260303-WA0008.jpg' %}" alt="">
             <div class="caption">
               <h5>Al‑Khalil Masjid & Islamic Foundation</h5>
               <p>Faith • Service • Community</p>
             </div>
           </div>
-          <div class="slide">
+          <div class="slide" style="--bg-img: url('{% static 'img/IMG-20260303-WA0009.jpg' %}')">
             <img src="{% static 'img/IMG-20260303-WA0009.jpg' %}" alt="">
             <div class="caption">
               <h5>Al‑Khalil Masjid & Islamic Foundation</h5>
               <p>Faith • Service • Community</p>
             </div>
           </div>
-          <div class="slide">
+          <div class="slide" style="--bg-img: url('{% static 'img/IMG-20260303-WA0010.jpg' %}')">
             <img src="{% static 'img/IMG-20260303-WA0010.jpg' %}" alt="">
             <div class="caption">
               <h5>Al‑Khalil Masjid & Islamic Foundation</h5>
@@ -97,7 +132,7 @@
             </div>
           </div>
           {% for c in featured %}
-          <div class="slide">
+          <div class="slide" {% if c.image %}style="--bg-img: url('{{ c.image.url }}')" {% endif %}>
             {% if c.image %}
             <img src="{{ c.image.url }}" alt="">
             {% else %}
@@ -111,7 +146,7 @@
               <a class="cta" href="{{ c.cta_url }}" target="_blank">{{ c.cta_text|default:"Learn More" }}</a>
               {% endif %}
             </div>
-            {% if user.is_authenticated %}
+            {% if user.is_superuser %}
             <form method="post" action="{% url 'campaign_delete' c.pk %}" style="position:absolute;top:10px;right:10px">
               {% csrf_token %}<button class="btn" style="padding:6px 10px">Delete</button>
             </form>
@@ -125,15 +160,24 @@
         <button class="carousel-btn next" id="carousel-next" aria-label="Next">&#10095;</button>
       </div>
       <div class="carousel-dots" id="carousel-dots"></div>
-      <div class="carousel-manage" style="margin-top:8px">
-        <a class="btn" href="{% url 'campaign_new' %}">Create New Campaign</a>
+      {% if user.is_superuser %}
+      <div class="carousel-manage">
+        <a class="btn-premium" href="{% url 'campaign_new' %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+            stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Create New Campaign
+        </a>
       </div>
+      {% endif %}
     </div>
   </section>
 
   <section id="about" class="section" data-reveal>
     <div class="container">
-      <h3>About</h3>
+      <h3>About Us</h3>
       <div class="about-card card">
         <div class="about-text">
           <p>Al‑Khalil Masjid & Islamic Foundation advances worship, education, welfare and empowerment programs that
@@ -142,9 +186,20 @@
           </p>
         </div>
         <div class="about-map">
-          <iframe class="map-frame"
-            src="https://www.google.com/maps?q=No.%206%2C%20Road%202%2C%20Ogbatomi%2C%20Omi%20Adio%2C%20Ibadan%2C%20Oyo%20State%2C%20Nigeria&z=17&output=embed&hl=en"
-            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div class="map-card">
+            <div class="map-header">
+              <h4>Find Us</h4>
+              <span style="font-size: 0.8rem; opacity: 0.7; color: var(--brand);">Ogbatomi, Ibadan</span>
+            </div>
+            <iframe class="map-frame"
+              src="https://www.google.com/maps?q=No.%206%2C%20Road%202%2C%20Ogbatomi%2C%20Omi%20Adio%2C%20Ibadan%2C%20Oyo%20State%2C%20Nigeria&z=17&output=embed&hl=en"
+              allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <div class="map-footer">
+              <a href="https://www.google.com/maps/dir/?api=1&destination=No.%206%2C%20Road%202%2C%20Ogbatomi%2C%20Omi%20Adio%2C%20Ibadan%2C%20Oyo%20State%2C%20Nigeria"
+                target="_blank" class="btn primary"
+                style="padding: 10px 20px; font-size: 0.95rem; border-radius: 12px;">Get Directions</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -153,7 +208,7 @@
   <section id="objectives" class="section alt" data-reveal>
     <div class="container info-grid">
       <div class="info-col" data-aos="fade-up">
-        <h3>Aims and Objectives</h3>
+        <h3>Our Core Values</h3>
         <ul class="objectives">
           <li>Establish, support and maintain a mosque for Islamic worship, teaching and community development.</li>
           <li>Provide humanitarian and welfare services such as food support, medical outreach, shelter assistance and
@@ -163,6 +218,46 @@
           <li>Empower Muslims through skill acquisition, vocational training, business support and other livelihood
             initiatives that reduce poverty and promote self‑reliance.</li>
         </ul>
+      </div>
+      <div class="info-col" data-aos="fade-up" data-aos-delay="100">
+        <h3>Our Services</h3>
+        <div class="services-grid" style="grid-template-columns: 1fr; gap: 12px;">
+          <div class="service-card" style="padding: 12px; flex-direction: row; align-items: center;">
+            <div class="service-icon" style="width: 32px; height: 32px; font-size: 1rem;"><i
+                class="fa-solid fa-bowl-food" aria-hidden="true"></i></div>
+            <span style="font-weight: 600;">Food Support Programs</span>
+          </div>
+          <div class="service-card" style="padding: 12px; flex-direction: row; align-items: center;">
+            <div class="service-icon" style="width: 32px; height: 32px; font-size: 1rem;"><i
+                class="fa-solid fa-stethoscope" aria-hidden="true"></i></div>
+            <span style="font-weight: 600;">Medical Outreach</span>
+          </div>
+        </div>
+        <div class="service-card" style="padding: 12px; flex-direction: row; align-items: center;">
+          <div class="service-icon" style="width: 32px; height: 32px; font-size: 1rem;"><i class="fa-solid fa-gears"
+              aria-hidden="true"></i></div>
+          <span style="font-weight: 600;">Skill Empowerment</span>
+        </div>
+        <div class="service-card" style="padding: 12px; flex-direction: row; align-items: center;">
+          <div class="service-icon" style="width: 32px; height: 32px; font-size: 1rem;"><i class="fa-solid fa-mosque"
+              aria-hidden="true"></i></div>
+          <span style="font-weight: 600;">Envangelism (Dawah)</span>
+        </div>
+        <div class="service-card" style="padding: 12px; flex-direction: row; align-items: center;">
+          <div class="service-icon" style="width: 32px; height: 32px; font-size: 1rem;"><i class="fa-solid fa-seedling"
+              aria-hidden="true"></i></div>
+          <span style="font-weight: 600;">Environmental Sustainability</span>
+        </div>
+        <div class="service-card" style="padding: 12px; flex-direction: row; align-items: center;">
+          <div class="service-icon" style="width: 32px; height: 32px; font-size: 1rem;"><i class="fa-solid fa-hospital"
+              aria-hidden="true"></i></div>
+          <span style="font-weight: 600;">Hospital Visitations</span>
+        </div>
+        <div class="service-card" style="padding: 12px; flex-direction: row; align-items: center;">
+          <div class="service-icon" style="width: 32px; height: 32px; font-size: 1rem;"><i
+              class="fa-solid fa-scale-balanced" aria-hidden="true"></i></div>
+          <span style="font-weight: 600;">Prison Visitations</span>
+        </div>
       </div>
       <div class="info-col" id="contact" aria-label="Contact" data-aos="fade-up" data-aos-delay="80">
         <h3>Contact</h3>
@@ -191,13 +286,13 @@
                 </svg></span>Website</span>
             <span class="card-value">alkhalilmasjidislamicfoundation.org</span>
           </a>
-          <div class="card">
-            <span class="card-title">Donate (Example)</span>
-            <span class="card-value">
-              Bank: {{ donate.bank }}<br>
-              Account: {{ donate.account_name }}<br>
-              Number: {{ donate.account_number }}<br>
-              Ref: {{ donate.reference }}
+          <div class="card" style="border: 2px solid var(--accent); background: #fff;">
+            <span class="card-title"><span class="card-icon">🏦</span> Bank Donation</span>
+            <span class="card-value" style="font-size: 0.95rem;">
+              <strong>Bank:</strong> {{ donate.bank }}<br>
+              <strong>Account:</strong> {{ donate.account_name }}<br>
+              <strong>Number:</strong> <span style="font-family: monospace;">{{ donate.account_number }}</span><br>
+              <strong>Ref:</strong> <span style="font-weight: 800; color: var(--brand);">{{ donate.reference }}</span>
             </span>
           </div>
         </div>
@@ -245,13 +340,13 @@
     const dotsWrap = document.getElementById('carousel-dots');
     const prev = document.getElementById('carousel-prev');
     const next = document.getElementById('carousel-next');
-    let i = 0, timer, goingForward = true;
+    let i = 0, timer;
     function renderDots() {
       dotsWrap.innerHTML = slides.map((_, idx) => `<button data-i="${idx}" aria-label="Go to slide ${idx + 1}"></button>`).join('');
       dotsWrap.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { goTo(+b.dataset.i); start(); }));
     }
     function goTo(idx) {
-      i = Math.max(0, Math.min(idx, slides.length - 1));
+      i = ((idx % slides.length) + slides.length) % slides.length;
       track.style.transform = `translateX(-${i * 100}%)`;
       slides.forEach((s, si) => s.classList.toggle('active', si === i));
       dotsWrap.querySelectorAll('button').forEach((b, bi) => b.classList.toggle('active', bi === i));
@@ -268,20 +363,11 @@
         }
       }
     }
-    function step() {
-      if (goingForward) {
-        if (i >= slides.length - 1) { goingForward = false; i--; }
-        else { i++; }
-      } else {
-        if (i <= 0) { goingForward = true; i++; }
-        else { i--; }
-      }
-      goTo(i);
-    }
+    function step() { goTo(i + 1); }
     function start() { stop(); timer = setInterval(step, 5000); }
     function stop() { if (timer) clearInterval(timer); }
-    prev?.addEventListener('click', () => { goingForward = false; goTo(i - 1); start(); });
-    next?.addEventListener('click', () => { goingForward = true; goTo(i + 1); start(); });
+    prev?.addEventListener('click', () => { goTo(i - 1); start(); });
+    next?.addEventListener('click', () => { goTo(i + 1); start(); });
     renderDots(); goTo(0); start();
     const wrap = document.getElementById('carousel');
     wrap?.addEventListener('mouseenter', stop);

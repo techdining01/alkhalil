@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block title %}Donate — Al‑Khalil Masjid & Islamic Foundation{% endblock %}
+{% block content %}
+<main class="donate-page">
+
+    <!-- Hero -->
+    <section class="donate-hero">
+        <div class="container">
+            <h2 class="donate-hero-title gsap-donate-title">Support Our Mission</h2>
+            <p class="donate-hero-sub gsap-donate-sub">Your generosity fuels programmes that uplift families, provide
+                education,
+                deliver healthcare and maintain our masjid. Every contribution, no matter how small, makes a lasting
+                difference.</p>
+        </div>
+    </section>
+
+    <!-- Categories Grid -->
+    <section class="section" id="donate-categories">
+        <div class="container">
+            <h3 class="section-heading" data-aos="fade-up">Ways You Can Give</h3>
+            <div class="donate-grid">
+                {% for cat in categories %}
+                <div class="donate-card" data-aos="fade-up"
+                    data-aos-delay="{{ forloop.counter0|add:forloop.counter0 }}0">
+                    <span class="donate-card-icon">{{ cat.icon }}</span>
+                    <h4 class="donate-card-title">{{ cat.title }}</h4>
+                    <p class="donate-card-desc">{{ cat.desc }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section donate-steps-section" id="how-to-donate">
+        <div class="container">
+            <h3 class="section-heading" data-aos="fade-up">How It Works</h3>
+            <div class="donate-steps">
+                {% for step in steps %}
+                <div class="donate-step" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}50">
+                    <span class="step-num">{{ step.num }}</span>
+                    <h4 class="step-title">{{ step.title }}</h4>
+                    <p class="step-desc">{{ step.desc }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Bank Details -->
+    <section class="section donate-bank-section" id="bank-details">
+        <div class="container">
+            <h3 class="section-heading" data-aos="fade-up">Bank Details</h3>
+            <div class="bank-card" data-aos="fade-up">
+                <div class="bank-card-inner">
+                    <div class="bank-icon">🏦</div>
+                    <div class="bank-rows">
+                        <div class="bank-row">
+                            <span class="bank-label">Bank</span>
+                            <span class="bank-value" id="bank-name">{{ bank_details.bank }}</span>
+                        </div>
+                        <div class="bank-row">
+                            <span class="bank-label">Account Name</span>
+                            <span class="bank-value" id="bank-acct-name">{{ bank_details.account_name }}</span>
+                        </div>
+                        <div class="bank-row">
+                            <span class="bank-label">Account Number</span>
+                            <span class="bank-value" id="bank-acct-num">{{ bank_details.account_number }}</span>
+                            <button class="copy-btn" data-copy="bank-acct-num" title="Copy account number">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="bank-row">
+                            <span class="bank-label">Reference</span>
+                            <span class="bank-value" id="bank-ref">{{ bank_details.reference }}</span>
+                            <button class="copy-btn" data-copy="bank-ref" title="Copy reference">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <p class="bank-note">💡 Add the <strong>donation category</strong> (e.g. "Food", "Medical Caravan") to
+                    your transfer reference so we can allocate your donation correctly.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Qur'an verse -->
+    <section class="section donate-verse-section">
+        <div class="container">
+            <blockquote class="donate-verse" data-aos="fade-up">
+                <p>"The example of those who spend their wealth in the way of Allah is like a seed of grain that sprouts
+                    seven ears; in every ear there are a hundred grains. And Allah multiplies for whom He wills."</p>
+                <cite>— Qur'an 2:261</cite>
+            </blockquote>
+        </div>
+    </section>
+
+</main>
+{% endblock %}
+{% block scripts %}
+<script>
+    // Copy-to-clipboard buttons
+    document.querySelectorAll('.copy-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var id = btn.getAttribute('data-copy');
+            var text = document.getElementById(id).textContent;
+            navigator.clipboard.writeText(text).then(function () {
+                btn.classList.add('copied');
+                btn.innerHTML = '✓';
+                setTimeout(function () {
+                    btn.classList.remove('copied');
+                    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+                }, 1500);
+            });
+        });
+    });
+
+    // GSAP entrance
+    document.addEventListener('DOMContentLoaded', function () {
+        if (window.gsap) {
+            gsap.fromTo('.gsap-donate-title',
+                { y: 40, autoAlpha: 0 },
+                { y: 0, autoAlpha: 1, duration: 1, ease: 'power3.out', clearProps: 'all' });
+            gsap.fromTo('.gsap-donate-sub',
+                { y: 20, autoAlpha: 0 },
+                { y: 0, autoAlpha: 1, duration: 0.8, delay: 0.2, ease: 'power3.out', clearProps: 'all' });
+        }
+    });
+</script>
+{% endblock %}

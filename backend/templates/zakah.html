@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+{% block title %}Zakah Calculator — Al‑Khalil Masjid & Islamic Foundation{% endblock %}
+{% block content %}
+<main class="zakah-page">
+
+    <!-- Nisab Marquee -->
+    <div class="nisab-marquee">
+        <div class="marquee-track">
+            <span class="marquee-item">🥇 Gold: ₦{{ z.gold_price_ngn }}/g</span>
+            <span class="marquee-item">🥈 Silver: ₦{{ z.silver_price_ngn }}/g</span>
+            <span class="marquee-item">💰 Nisab (Gold): ₦{{ z.nisab_gold_ngn }}</span>
+            <span class="marquee-item">🪙 Nisab (Silver): ₦{{ z.nisab_silver_ngn }}</span>
+            <span class="marquee-item">💍 Mahr Fatimi: ₦{{ z.mahr_fatimi_ngn }}</span>
+            <span class="marquee-item">⚖️ Blood Money: ₦{{ z.diyyah_ngn }}</span>
+            <span class="marquee-item">📅 Rates as of: {{ z.date }}</span>
+            <!-- Duplicate for seamless loop -->
+            <span class="marquee-item">🥇 Gold: ₦{{ z.gold_price_ngn }}/g</span>
+            <span class="marquee-item">🥈 Silver: ₦{{ z.silver_price_ngn }}/g</span>
+            <span class="marquee-item">💰 Nisab (Gold): ₦{{ z.nisab_gold_ngn }}</span>
+            <span class="marquee-item">🪙 Nisab (Silver): ₦{{ z.nisab_silver_ngn }}</span>
+            <span class="marquee-item">💍 Mahr Fatimi: ₦{{ z.mahr_fatimi_ngn }}</span>
+            <span class="marquee-item">⚖️ Blood Money: ₦{{ z.diyyah_ngn }}</span>
+            <span class="marquee-item">📅 Rates as of: {{ z.date }}</span>
+        </div>
+    </div>
+
+    <section class="zakah-hero">
+        <div class="container">
+            <h2 class="zakah-hero-title gsap-zakah-title">Zakah & Islamic Benchmarks</h2>
+            <p class="zakah-hero-sub gsap-zakah-sub">Real-time Islamic financial benchmarks and calculator. Zakah, Mahr
+                (Dowry), and Diyyah (Blood Money) values calculated using current market rates for Gold and Silver in
+                Nigerian Naira.</p>
+        </div>
+    </section>
+
+    <!-- Benchmarks -->
+    <section class="section zakah-info-section">
+        <div class="container">
+            <h3 class="section-heading" data-aos="fade-up">Zakah Nisab (Threshold)</h3>
+            <div class="zakah-info-cards">
+                <div class="zakah-info-card" data-aos="fade-up">
+                    <span class="info-icon">🥇</span>
+                    <h4>Gold Nisab</h4>
+                    <p>Equivalent to <strong>87.48 grams</strong> of 24k gold.</p>
+                    <span class="info-value">₦{{ z.nisab_gold_ngn }}</span>
+                </div>
+                <div class="zakah-info-card" data-aos="fade-up" data-aos-delay="100">
+                    <span class="info-icon">🥈</span>
+                    <h4>Silver Nisab</h4>
+                    <p>Equivalent to <strong>612.36 grams</strong> of pure silver.</p>
+                    <span class="info-value">₦{{ z.nisab_silver_ngn }}</span>
+                </div>
+                <div class="zakah-info-card" data-aos="fade-up" data-aos-delay="200">
+                    <span class="info-icon">📊</span>
+                    <h4>Zakah Rate</h4>
+                    <p>Pay <strong>2.5%</strong> of net wealth if it stays above Nisab for a lunar year.</p>
+                    <span class="info-value">2.5%</span>
+                </div>
+            </div>
+
+            <h3 class="section-heading" data-aos="fade-up" style="margin-top: 50px;">Other Benchmarks</h3>
+            <div class="zakah-info-cards">
+                <div class="zakah-info-card" data-aos="fade-up">
+                    <span class="info-icon">💍</span>
+                    <h4>Mahr Fatimi</h4>
+                    <p>The dowry given by Ali(RA) to Fatima(RA). 500 Dirhams (1487.5g silver).</p>
+                    <span class="info-value">₦{{ z.mahr_fatimi_ngn }}</span>
+                </div>
+                <div class="zakah-info-card" data-aos="fade-up" data-aos-delay="100">
+                    <span class="info-icon">💎</span>
+                    <h4>Minimum Mahr</h4>
+                    <p>The minimum dowry in Hanafi Fiqh. 10 Dirhams (29.75g silver).</p>
+                    <span class="info-value">₦{{ z.mahr_min_ngn }}</span>
+                </div>
+                <div class="zakah-info-card" data-aos="fade-up" data-aos-delay="200">
+                    <span class="info-icon">⚖️</span>
+                    <h4>Blood Money</h4>
+                    <p>Major Diyyah. Equivalent to 1,000 Gold Dinars (4.25kg of gold).</p>
+                    <span class="info-value">₦{{ z.diyyah_ngn }}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator -->
+    <section class="section zakah-calc-section" id="calculator">
+        <div class="container">
+            <h3 class="section-heading" data-aos="fade-up">Calculate Your Zakah</h3>
+            <p class="calc-sub" data-aos="fade-up">Enter values in your local currency. All calculations happen in your
+                browser — nothing is stored.</p>
+
+            <div class="zakah-calc" data-aos="fade-up">
+                <!-- Assets -->
+                <fieldset class="calc-fieldset">
+                    <legend class="calc-legend"><span class="section-icon">📥</span> Zakatable Assets</legend>
+                    {% for field in calc_fields %}
+                    <div class="calc-row">
+                        <label for="calc-{{ field.id }}" class="calc-label">
+                            <span class="calc-icon">{{ field.icon }}</span>
+                            {{ field.label }}
+                        </label>
+                        <input type="number" id="calc-{{ field.id }}" class="calc-input zakah-asset" min="0" step="0.01"
+                            placeholder="0.00">
+                    </div>
+                    {% endfor %}
+                    <div class="calc-subtotal">
+                        <span>Total Assets</span>
+                        <span>&#8358;<span id="total-assets">0.00</span></span>
+                    </div>
+                </fieldset>
+
+                <!-- Deductions -->
+                <fieldset class="calc-fieldset deductions">
+                    <legend class="calc-legend"><span class="section-icon">📤</span> Deductions</legend>
+                    {% for d in deductions %}
+                    <div class="calc-row">
+                        <label for="calc-{{ d.id }}" class="calc-label">
+                            <span class="calc-icon">{{ d.icon }}</span>
+                            {{ d.label }}
+                        </label>
+                        <input type="number" id="calc-{{ d.id }}" class="calc-input zakah-deduction" min="0" step="0.01"
+                            placeholder="0.00">
+                    </div>
+                    {% endfor %}
+                    <div class="calc-subtotal">
+                        <span>Total Deductions</span>
+                        <span>&#8358;<span id="total-deductions">0.00</span></span>
+                    </div>
+                </fieldset>
+
+                <!-- Result -->
+                <div class="calc-result">
+                    <div class="result-row">
+                        <span>Net Zakatable Wealth</span>
+                        <span id="net-wealth" class="result-val">0.00</span>
+                    </div>
+                    <div class="result-row result-main">
+                        <span>Zakah Due (2.5%)</span>
+                        <span id="zakah-due" class="result-val">0.00</span>
+                    </div>
+                </div>
+
+                <button class="btn primary calc-reset" id="calc-reset">Reset Calculator</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Verse -->
+    <section class="section zakah-verse-section">
+        <div class="container">
+            <blockquote class="donate-verse" data-aos="fade-up">
+                <p>"And establish prayer and give Zakah, and whatever good you put forward for yourselves — you will
+                    find it with Allah."</p>
+                <cite>— Qur'an 2:110</cite>
+            </blockquote>
+        </div>
+    </section>
+
+    <!-- Bank Details -->
+    <section class="section alt" style="padding-top: 0;">
+        <div class="container">
+            <h3 class="section-heading" data-aos="fade-up">Zakah Payment Details</h3>
+            <div class="contact-cards" style="grid-template-columns: 1fr;">
+                <div class="card" data-aos="fade-up"
+                    style="max-width: 500px; margin: 0 auto; background: #fff; border: 2px solid var(--accent);">
+                    <span class="card-title"><span class="card-icon">🏦</span> Bank Transfer</span>
+                    <span class="card-value" style="font-size: 1.1rem; line-height: 1.8;">
+                        <strong>Bank:</strong> {{ donate.bank }}<br>
+                        <strong>Account Name:</strong> {{ donate.account_name }}<br>
+                        <strong>Account Number:</strong> <span style="font-family: monospace; letter-spacing: 1px;">{{
+                            donate.account_number }}</span><br>
+                        <strong>Reference:</strong> <span style="color: var(--brand); font-weight: 800;">{{
+                            donate.reference }}</span>
+                    </span>
+                    <p style="font-size: 0.85rem; margin-top: 12px; opacity: 0.8;">Payments made here are strictly
+                        allocated to the Foundation's Zakah and Welfare fund.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+{% endblock %}
+{% block scripts %}
+<script>
+    // Zakah Calculator Logic
+    (function () {
+        var assets = document.querySelectorAll('.zakah-asset');
+        var deductions = document.querySelectorAll('.zakah-deduction');
+        var totalAssetsEl = document.getElementById('total-assets');
+        var totalDeductionsEl = document.getElementById('total-deductions');
+        var netWealthEl = document.getElementById('net-wealth');
+        var zakahDueEl = document.getElementById('zakah-due');
+
+        function fmt(n) { return n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+        function calc() {
+            var totalA = 0, totalD = 0;
+            assets.forEach(function (el) { totalA += parseFloat(el.value) || 0; });
+            deductions.forEach(function (el) { totalD += parseFloat(el.value) || 0; });
+            var net = Math.max(0, totalA - totalD);
+            var zakah = net * 0.025;
+            totalAssetsEl.textContent = fmt(totalA);
+            totalDeductionsEl.textContent = fmt(totalD);
+            netWealthEl.textContent = fmt(net);
+            zakahDueEl.textContent = fmt(zakah);
+        }
+
+        assets.forEach(function (el) { el.addEventListener('input', calc); });
+        deductions.forEach(function (el) { el.addEventListener('input', calc); });
+
+        document.getElementById('calc-reset').addEventListener('click', function () {
+            assets.forEach(function (el) { el.value = ''; });
+            deductions.forEach(function (el) { el.value = ''; });
+            calc();
+        });
+    })();
+
+    // GSAP entrance
+    document.addEventListener('DOMContentLoaded', function () {
+        if (window.gsap) {
+            gsap.fromTo('.gsap-zakah-title',
+                { y: 40, autoAlpha: 0 },
+                { y: 0, autoAlpha: 1, duration: 1, ease: 'power3.out', clearProps: 'all' });
+            gsap.fromTo('.gsap-zakah-sub',
+                { y: 20, autoAlpha: 0 },
+                { y: 0, autoAlpha: 1, duration: 0.8, delay: 0.2, ease: 'power3.out', clearProps: 'all' });
+        }
+    });
+</script>
+{% endblock %}

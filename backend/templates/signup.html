@@ -4,11 +4,13 @@
   <div class="auth-card" data-reveal>
     <h3 class="auth-title">Join the Foundation</h3>
     <p class="auth-sub">Create an account to publish campaigns and participate.</p>
-    <form method="post" class="auth-form">
+    <form method="post" class="auth-form" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="form-row"><label>Username {{ form.username }}</label></div>
       <div class="form-row"><label>Email {{ form.email }}</label></div>
       <div class="form-row"><label>Full name {{ form.full_name }}</label></div>
+      <div class="form-row"><label>Profile Picture {{ form.profile_picture }}</label></div>
+      <div class="form-row"><label>Category {{ form.category }}</label></div>
       <div class="form-row"><label>Password {{ form.password }}</label></div>
       <div class="form-actions">
         <a class="btn" href="{% url 'login' %}">I have an account</a>
