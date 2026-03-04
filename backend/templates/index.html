@@ -267,7 +267,7 @@
                   height="18">
                   <path fill="currentColor"
                     d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5L4 8V6l8 5 8-5z" />
-                </svg></span>Email</span>
+                </svg></span>Email</span><br>
             <span class="card-value">alkhalilmasjidislamicfoundation@gmail.com</span>
           </a>
           <a class="card" href="https://wa.me/2348038100195" target="_blank" rel="noopener">
@@ -275,7 +275,7 @@
                   height="18">
                   <path fill="currentColor"
                     d="M.5 21.5 2.2 16A9.9 9.9 0 1 1 12 22a9.8 9.8 0 0 1-5.2-1.5L.5 21.5zM7 19a8 8 0 1 0-2.3-2.2l.3.2-1 3.1L7 19zm7.6-4.5c-.2-.1-1.3-.6-1.5-.7-.2-.1-.3-.1-.4.1-.1.2-.5.7-.6.8-.1.1-.2.2-.4.1-.2-.1-.9-.3-1.7-1a6.5 6.5 0 0 1-1.2-1.5c-.1-.2 0-.3.1-.4l.3-.4.2-.4c.1-.2 0-.3 0-.4l-.6-1.6c-.2-.4-.3-.3-.4-.3h-.3c-.1 0-.3 0-.4.2l-.3.3c-.1.2-.4.4-.4 1 0 .6.4 1.2.5 1.3l.1.2a9.8 9.8 0 0 0 3.7 3.7l.4.2c.6.3 1 .3 1.3.2.4-.1 1.3-.5 1.5-1 .2-.5.2-.9.1-1 0-.1-.2-.1-.4-.2z" />
-                </svg></span>WhatsApp</span>
+                </svg></span>WhatsApp</span><br>
             <span class="card-value">+234 803 810 0195</span>
           </a>
           <a class="card" href="https://www.alkhalilmasjidislamicfoundation.org" target="_blank" rel="noopener">
@@ -283,12 +283,14 @@
                   height="18">
                   <path fill="currentColor"
                     d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm-1.8 17.3A13 13 0 0 1 8 14H4.9a8 8 0 0 0 5.3 5.3zM4.2 12c0-.7.1-1.4.3-2H8c-.1.6-.2 1.3-.2 2s.1 1.4.2 2H4.5c-.2-.6-.3-1.3-.3-2zm.7-4H8a13 13 0 0 1 2.2-5.3A8 8 0 0 0 4.9 8zM12 4.2c.9 1.1 1.7 2.8 2.1 3.8H9.9C10.3 7 11.1 5.3 12 4.2zM9.9 16h4.2c-.5 1-1.2 2.7-2.1 3.8A10 10 0 0 1 9.9 16zM15.8 12c0 .7-.1 1.4-.2 2h3.3c.2-.6.3-1.3.3-2s-.1-1.4-.3-2h-3.3c.1.6.2 1.3.2 2zm-.8-4h3.1A8 8 0 0 0 20 12c0 .7-.1 1.4-.3 2h-3.1a14 14 0 0 0 0-4zM13.8 19.3A13 13 0 0 0 16 14h3.1a8 8 0 0 1-5.3 5.3zM16 10H8c.2-1.4.6-2.8 1.1-3.8C10.1 5.8 11 4 12 4s1.9 1.8 2.9 2.2c.5 1 1 2.4 1.1 3.8z" />
-                </svg></span>Website</span>
+                </svg></span>Website</span><br>
             <span class="card-value">alkhalilmasjidislamicfoundation.org</span>
           </a>
+          <br>
+          <h3>Bank Detail</h3>
           <div class="card" style="border: 2px solid var(--accent); background: #fff;">
             <span class="card-title"><span class="card-icon">🏦</span> Bank Donation</span>
-            <span class="card-value" style="font-size: 0.95rem;">
+            <span class="card-value" style="font-size: 0.95rem;"><br>
               <strong>Bank:</strong> {{ donate.bank }}<br>
               <strong>Account:</strong> {{ donate.account_name }}<br>
               <strong>Number:</strong> <span style="font-family: monospace;">{{ donate.account_number }}</span><br>
@@ -332,7 +334,6 @@
 {% endblock %}
 {% block scripts %}
 <script>
-  // Forward & reverse carousel (ping-pong motion)
   (function () {
     const track = document.getElementById('carousel-track');
     if (!track) return;

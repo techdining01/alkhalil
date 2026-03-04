@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -77,6 +78,15 @@ WSGI_APPLICATION = 'alkhalil_site.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+
+
+# DATABSE_ENGINE = config('DATABSE_ENGINE')
+# DATABASE_NAME = config('DATABASE_NAME')
+# DATABASE_USER = config('DATABASE_USER')
+# DATABASE_PASSWORD = config('DATABASE_PASSWORD')
+# DATABASE_HOST = config('DATABASE_HOST')
+# DATABASE_PORT = config('DATABASE_PORT')
+
 
 DATABASES = {
     'default': {
